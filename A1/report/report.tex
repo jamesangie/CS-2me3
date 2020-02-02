@@ -1,0 +1,168 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{paralist}
+\usepackage{listings}
+\usepackage{booktabs}
+
+\oddsidemargin 0mm
+\evensidemargin 0mm
+\textwidth 160mm
+\textheight 200mm
+
+\pagestyle {plain}
+\pagenumbering{arabic}
+
+\newcounter{stepnum}
+
+\title{Assignment 1 Solution}
+\author{James Zhang  zhany111}
+\date{\today}
+
+\begin {document}
+
+\maketitle
+
+
+\section{Testing of the Original Program}
+
+\begin{lstlisting}
+from ReadAllocationData import *
+from CalcModule import *
+
+def fine(a,b):
+    if (abs(a-b)/a)<(1.0/100.0):
+        return True
+    return False
+
+print(fine(average(readStdnts('student.txt'),'female'),5.16))
+
+ans = {'civil': [{'macid': 'zhany111', 'fname': 'james', 'lname': 'zhang', 
+'gender': 'male', 'gpa': 8.0, 'choices': ['civil', 'electrical', 'materials']}], 
+'chemical': [], 'electrical': [{'macid': 'liy200', 'fname': 'iris', 'lname': 'li',
+ 'gender': 'female', 'gpa': 10.0, 'choices': ['electrical', 'materials', 'chemical']}],
+ 'mechanical': [], 'software': [{'macid': 'jiaoz666', 'fname': 'dump',
+ 'lname': 'li', 'gender': 'female', 'gpa': 4.3, 'choices': ['software',
+ 'engphys', 'chemical']}], 'materials': [{'macid': 'fnndp123', 'fname':
+ 'tie', 'lname': 'dan', 'gender': 'male', 'gpa': 8.2, 'choices': ['electrical',
+ 'materials', 'chemical']}, {'macid': 'ojbk123', 'fname': 'an', 'lname': 'li',
+ 'gender': 'male', 'gpa': 6.5, 'choices': ['electrical', 'materials', 'chemical']}]
+, 'engphys': []}
+
+print(allocate(readStdnts('student.txt'),readFreeChoice('free.txt'),
+  readDeptCapacity('dept.txt'))==ans)
+\end{lstlisting}
+
+The above code shall print the following result:
+\begin{lstlisting}
+True
+True
+
+\end{lstlisting}
+
+The first True represents the correctness of the average(L,  G) function and also the readStdnts(s) fuction. I test the result by comparing the output of the funciton with the 
+actualy average calculated by the calculator. I used a new function fine(a,b) to compare only up to two decimal places of the numbers since the float variable returned from
+average(L, G) has almost infinity decimal places. 
+
+The second True represents the correstness of the alloacate(S, F, C), readStdnts(s), readFreeChoice(s) and readDeptCapacity(s). I tested the alloacate function using the result of the 
+rest other fuctions so that I do not have to test them individually. I used a variable called ans as the result of the correct answer which found by myself using the test files I wrote.
+
+Therefore, I used the least space to test the correctness of all the function included in the code.  
+
+Description of approach to testing.  Rationale for test case selection.  Summary
+of results.  Any problems uncovered through testing.
+
+Under testing you should list any assumptions you needed to make about the
+program's inputs or expected behaviour.
+
+\section{Results of Testing Partner's Code}
+
+The result of testing partner's code is:
+\begin{lstlisting}
+True
+True
+
+\end{lstlisting}
+
+The result is exactly same as the result I got from running my code. The code goes through all my tests. This means that my partner's code is good.
+
+
+
+\section{Discussion of Test Results}
+
+\subsection{Problems with Original Code}
+
+After reading my partner's code, I realize that I should include the case that the file is not readable. I can raise an IOError when the file is not readable and ask the user to motify the input file.
+Then, the project can handle more cases.
+
+
+\subsection{Problems with Partner's Code}
+
+My partner has a really nice code and it is working perfect. However, I realize that in the function average(L,g), it calculates the average gpa for both male and female no matter what the input is. As an example, the user asks for the average gpa for male, the code will still calculate the average for female and male, but it will return the average for male. This makes the average running time increased, which is time wasting when calculating the large number of students, such as calculating the average gpa of all the male students from Canada.
+
+\section{Critique of Design Specification}
+
+
+
+The results of the functions are not readable for humanbeing. Therefore, I recommand to create a class call student and make the printed output looked easier to read for people using \verb|__str__|.
+
+%\newpage
+
+\section{Answers to Questions}
+
+\begin{enumerate}[(a)]
+
+\item The average(L,g) function can be more versatile by adding the new input parameter m representing the student's first prefered options for their second year engineer type. So that we can calculate the average of the student's who chooses any specific major. Also, we can motify the code so that when we set either of the input parameter g or m to null, the function calculates all the students. Such as when we input g as null, the function return the average gpa of both male and female.
+
+We can change the sort(s) function in the similar way by adding extra input parameter m and g to return the sorted male or female student who chooses specific major.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+\item In my opinion the aliasing means that some element exists in the wrong position such as the gpa of the student was stored as the last name. The aliasing usually is not a concern of dictionary because the order of the elements inside the dictionary is not nesseary. However the key of the element is important for the information to be stored in the correct postition. Therefore I recommend to set the condition check of the input values to make sure that the information is stored in the correct place. For example, checking if the gpa is float and is in the range (0,12), is helpful to ckeck the input value is not in wrong order. 
+
+\item I can check if the returned output value is same as the value that calculated using the input value. However, test the functions from ReadAllocationData.py is not neccesary because the funtions from CalcModule.py use all the functions from ReadAllocationData.py. Therefore, by testing CalcModule.py we also test ReadAllocationData.py.
+
+\item Using strings to represent the gender of student is not the best because typing "male" or "female" can easily lead typo. Also there are only two elements in \{male, female\}, so using string is time consuming. The better way is use integers to represent the gender, by letting 0 be the first postion male in [male, female] and 1 be the second position in [male, female]. So that there is less possibility for typos to occur and it is easier to input the information.
+
+\item The collections.namedtuple Class is also a good way to store information. I recommand to use the collections.namedtuple class instead of dictionary beacause the collections.namedtuple class is immutable, which means it can not be changed after created. It locks down the field to avoid typos and it is easy to accessing the stored information.
+
+\item If the 'choices' is changed from list to tuple, it is not neccesary to change CalcModule.py. Because the tuple works the same way as list when accessing the information stored in it. If a custom class was written for students, and there is a method that returns the next choice and another method that returns True when there are no more choices, also the lists are changed to tuples, the CalcModule.py will need to be motified bacause tuples are immutable. The method that check if there is any choices left will not work properly, if it uses something like pop and push concepts. You cannot change the elements in the tuple after the tuple is created.
+
+\end{enumerate}
+
+\newpage
+
+\lstset{language=Python, basicstyle=\tiny, breaklines=true, showspaces=false,
+  showstringspaces=false, breakatwhitespace=true}
+%\lstset{language=C,linewidth=.94\textwidth,xleftmargin=1.1cm}
+
+\def\thesection{\Alph{section}}
+
+\section{Code for ReadAllocationData.py}
+
+\noindent \lstinputlisting{../src/ReadAllocationData.py}
+
+\newpage
+
+\section{Code for CalcModule.py}
+
+\noindent \lstinputlisting{../src/CalcModule.py}
+
+\newpage
+
+\section{Code for testCalc.py}
+
+\noindent \lstinputlisting{../src/testCalc.py}
+
+\newpage
+
+\section{Code for Partner's CalcModule.py}
+
+\noindent \lstinputlisting{../partner/CalcModule.py}
+
+\newpage
+
+\section{Makefile}
+
+\lstset{language=make}
+\noindent \lstinputlisting{../Makefile}
+
+\end {document}

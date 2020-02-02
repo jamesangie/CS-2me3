@@ -1,0 +1,127 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{paralist}
+\usepackage{listings}
+\usepackage{booktabs}
+
+\oddsidemargin 0mm
+\evensidemargin 0mm
+\textwidth 160mm
+\textheight 200mm
+
+\pagestyle {plain}
+\pagenumbering{arabic}
+
+\newcounter{stepnum}
+
+\title{Assignment 2 Solution}
+\author{James Zhang zhany111}
+\date{\today}
+
+\begin {document}
+
+\maketitle
+
+In this assignment we are going to solve a preblem similar to A1, that we want to allocate the first year enigineering students into their respective second year programs. We wil use doxygen, make, LaTeX and Python that are same as A1. Also we are going to use pytest and flake8 to test and check code. 
+
+\section{Testing of the Original Program}
+
+I find that the sort(f), average(f) and allocate() functions from SALst() are not working. I had trouble with translating the access routine semantics the lambda function. I understand it now by reading my partner’s code
+
+\section{Results of Testing Partner's Code}
+
+My partner has excellent code.
+
+\section{Critique of Given Design Specification}
+
+I like that in this assignment every module(ADP) are connected together. It feels like we are doing an actual computer science project instead of a simple assignment. I think that one thing that the assignment can be improved on is that the class DCapALst and SALst are very similar in designing. They both have add(), remove() and elm() methods. Maybe we can define a parent class like a list of students and departments, then define the children classes DCapALst and SALst using the parent class. It saves time defining the similar methods.
+
+\section{Discussion }
+
+By doing the exercise, I learned that by representing different variables as new ADP instead of list or dictionary, the whole model will be more organized and easier for us to test the code. By using pytest, it  is more efficient for us to find the error. Pytest can be very helpful when test on the complex code including different methods and functions such as the code for this assignment. 
+
+\section{Answers}
+
+\begin{enumerate}
+
+\item For A1, the advantage is that it gives us the freedom to construct the project by our own thoughts. We can decide how each function works to output the result we want. However, in A1 everybody has completely different code, it gives the difficulty to read and understand the other’s code. 
+For A2, the advantage is we do not need to spend time on designing the modules, since we just need to translate the semantics from the instruction to python code. However, we did not practice on designing our own program in this assignment.
+
+\item I can change the assumption to an exception by: if gpa < 0.0 or gpa > 12.0: raise keyError. We do not need to modify the specification to replace a record type with a new ADT because an abstract object can raise error.
+
+\item As I said in question 7), the possible way to modify the project is define a new list type to store department and student as the parent class. Then define the DCapALst and SALst using the parent class. 
+
+\item A2 is more general than A1 because it takes objects as abstract objects or ADPs other than regular list or dictionary in A1. Also, in A1, each student must have three choices of department. However, in A2, each student can have any number of choices of department that is greater than 0.
+
+\item Using SeqADP is better than using a regular list because regular list is mutable, which means the elements in it can be changed. However, for SeqADP, there is only add() method but no any removing or deleting method, which makes SeqADP an immutable type, that we can only add new element into it, but we cannot change any element after we create it. SeqADP makes the information storing much safer. We can never ruin the information stored in SeqADP by any mistake.
+
+\item Enums have the advantage that it is easier to type. We do not need to type the name of the department every time we input the value, because using Enums, the name of the department can be represented by numbers. Student’s macid cannot be represented as Enums because every student has a unique macid. It is impossible to enum them all.
+
+
+
+
+
+\end{enumerate}
+
+\newpage
+
+\lstset{language=Python, basicstyle=\tiny, breaklines=true, showspaces=false,
+  showstringspaces=false, breakatwhitespace=true}
+%\lstset{language=C,linewidth=.94\textwidth,xleftmargin=1.1cm}
+
+\def\thesection{\Alph{section}}
+
+\section{Code for StdntAllocTypes.py}
+
+\noindent \lstinputlisting{../src/StdntAllocTypes.py}
+
+\newpage
+
+\section{Code for SeqADT.py}
+
+\noindent \lstinputlisting{../src/SeqADT.py}
+
+\newpage
+
+\section{Code for DCapALst.py}
+
+\noindent \lstinputlisting{../src/DCapALst.py}
+
+\newpage
+
+\section{Code for AALst.py}
+
+\noindent \lstinputlisting{../src/AALst.py}
+
+\newpage
+
+\section{Code for SALst.py}
+
+\noindent \lstinputlisting{../src/SALst.py}
+
+\newpage
+
+\section{Code for Read.py}
+
+\noindent \lstinputlisting{../src/Read.py}
+
+\newpage
+
+\section{Code for Partner's SeqADT.py}
+
+\noindent \lstinputlisting{../partner/SeqADT.py}
+
+\newpage
+
+\section{Code for Partner's DCapALst.py}
+
+\noindent \lstinputlisting{../partner/DCapALst.py}
+
+\newpage
+
+\section{Code for Partner's SALst.py}
+
+\noindent \lstinputlisting{../partner/SALst.py}
+
+\end {document}
